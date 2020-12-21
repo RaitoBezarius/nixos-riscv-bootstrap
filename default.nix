@@ -12,7 +12,7 @@ let module = { imports =
     nativePkgs = pkgs.buildPackages.buildPackages;
     bbl = pkgs.riscv-pk.override
       { payload = "${config.boot.kernelPackages.kernel}/vmlinux"; };
-    qemu = nativePkgs.qemu-riscv;
+    qemu = nativePkgs.qemu;
     closureInfo = nativePkgs.callPackage ./closure-info.nix {};
     image-closure = closureInfo { rootPaths = [ system ]; };
     base-image =
@@ -71,8 +71,8 @@ let module = { imports =
             else
               declare -r full_cmd="$cmd $QEMU_EXTRA_KERNEL_CMDLINE"
             fi
-            exec -a qemu-system-riscv64 \
-              ${qemu}/bin/qemu-system-riscv64 -nographic \
+            exec -a qemu-system-riscv32 \
+              ${qemu}/bin/qemu-system-riscv32 -nographic \
               -machine virt -m "$mem" -append "$full_cmd" \
               -kernel ${bbl}/bin/bbl \
               -initrd ${system}/initrd -device virtio-scsi-device \

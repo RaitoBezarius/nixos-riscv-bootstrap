@@ -16,9 +16,9 @@ if [ "$has_nixpkgs" = "false" ]; then
     fail
 fi
 
-storePath="$(nix-build -A run-vm --show-trace --no-out-link || echo $?)"
+storePath="$(nix-build '<nixpkgs/nixos>' -A config.system.build.kernel --arg configuration ./configuration.nix -o kernel || echo $?)"
 if [ "$(expr "$storePath" : "^/")" = "0" ]; then
     exit "$storePath"
 fi
 
-exec "$storePath"/bin/run-vm "$@"
+echo "$storePath" | cachix push sysnum-riscv

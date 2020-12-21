@@ -10,7 +10,7 @@ if ! type nix-build &>/dev/null; then
     fail
 fi
 
-has_nixpkgs="$(nix-instantiate --eval -E '(import <nixpkgs/lib>) ? systems.examples.riscv64')"
+has_nixpkgs="$(nix-instantiate --eval -E '(import <nixpkgs/lib>) ? systems.examples.riscv32')"
 if [ "$has_nixpkgs" = "false" ]; then
     echo "The nixpkgs in your \$NIX_PATH is not new enough." >&2
     fail
